@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>OUTBIDZ — KSI FOREHEAD AUCTION</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0A0A0F;--surface:#14161D;--fg:#EDEDED;--muted:#8A8F9E;
+  --cyan:#00FFF0;--magenta:#FF2D92;--amber:#FFB000;
+  --border:#232732;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,sans-serif}
+a{color:inherit}
+header{position:sticky;top:0;background:rgba(10,10,15,.8);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);z-index:10}
+.nav{max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.brand{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-0.02em;font-size:20px}
+.brand span{color:var(--cyan)}
+.navlinks{display:flex;gap:20px;font-size:13px;color:var(--muted)}
+.hero{max-width:1200px;margin:0 auto;padding:72px 24px 48px;display:grid;grid-template-columns:1.2fr .8fr;gap:48px;align-items:center}
+@media(max-width:900px){.hero{grid-template-columns:1fr}}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);margin-bottom:12px}
+h1{font-family:'Space Grotesk',sans-serif;font-size:64px;line-height:0.95;margin:0 0 16px;letter-spacing:-0.03em}
+h1 .mag{color:var(--magenta)}
+.sub{color:var(--muted);font-size:18px;max-width:520px}
+.head-silhouette{position:relative;aspect-ratio:4/5;background:linear-gradient(180deg,#1a1d26,#0f1118);border:1px solid var(--border);border-radius:24px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.head-silhouette::before{content:'';position:absolute;inset:0;background:radial-gradient(60% 60% at 50% 35%, rgba(0,255,240,.15), transparent 60%)}
+.slot{position:absolute;top:32%;left:50%;transform:translateX(-50%);width:64%;height:8%;background:rgba(255,45,146,.18);border:1px dashed var(--magenta);border-radius:8px;animation:pulse 2.4s infinite}
+@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
+.ticker{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px}
+.ticker h2{font-family:'Space Grotesk',sans-serif;font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.ticker .big{font-family:'JetBrains Mono',monospace;font-size:32px;color:var(--amber)}
+.bidbtn{margin-top:12px;display:inline-block;background:var(--cyan);color:#001;font-weight:700;padding:10px 18px;border-radius:10px;font-family:'Space Grotesk',sans-serif;text-decoration:none}
+.board{max-width:1200px;margin:0 auto;padding:0 24px 96px}
+.board-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.board-head h2{font-family:'Space Grotesk',sans-serif;font-size:18px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.card{grid-column:span 4;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px}
+@media(max-width:1024px){.card{grid-column:span 6}}
+@media(max-width:640px){.card{grid-column:span 12}}
+.rank{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--muted)}
+.name{font-family:'Space Grotesk',sans-serif;font-size:18px;margin:6px 0 4px}
+.meta{font-size:13px;color:var(--muted)}
+.price{font-family:'JetBrains Mono',monospace;font-size:24px;margin-top:10px;color:var(--cyan)}
+footer{border-top:1px solid var(--border);color:var(--muted);font-size:12px;padding:24px;text-align:center}
+</style>
+</head>
+<body>
+<header>
+<div class="nav">
+<div class="brand">OUT<span>bidz</span></div>
+<div class="navlinks"><a>Leaderboard</a><a>Slots</a><a>Rules</a><a>About KSI</a></div>
+</div>
+</header>
+<div class="hero">
+<div>
+<div class="eyebrow">Forehead ad auction • live</div>
+<h1>Claim skin on <span class="mag">KSI</span><br>Make noise. Get seen.</h1>
+<p class="sub">Outbidz is a street-culture ad market. Whole-dollar bids. Winner gets a forehead slot for the run. No fluff, no retainers.</p>
+</div>
+<div>
+<div class="head-silhouette">
+<div class="slot"></div>
+</div>
+<div class="ticker" style="margin-top:16px">
+<h2>Current top slot</h2>
+<div class="big">$12</div>
+<div style="color:var(--muted);font-size:13px;margin-top:4px">Claim #1 for $17</div>
+<a class="bidbtn" href="#">Bid now</a>
+</div>
+</div>
+</div>
+<div class="board">
+<div class="board-head"><h2>Live Leaderboard</h2><div style="color:var(--muted);font-size:13px">Updated live • D1 powered</div></div>
+<div id="board" class="grid"></div>
+</div>
+<footer>outbidz.pages.dev • Built for hype brands</footer>
+<script>
+const API='https://outbidz-api.parithosh.workers.dev';
+const el=document.getElementById('board');
+fetch(API+'/api/leaderboard').then(r=>r.json()).then(data=>{
+ if(!data||data.length===0){el.innerHTML='<div style="grid-column:1/-1;color:var(--muted);padding:40px;text-align:center">No products yet. Seed D1 to populate board.</div>';return}
+ el.innerHTML=data.map((p,i)=>`
+  <div class="card">
+   <div class="rank">#${String(i+1).padStart(2,'0')}</div>
+   <div class="name">${p.name||'Unnamed'}</div>
+   <div class="meta">${p.category||'Other'} • ${p.bid_count||0} bids</div>
+   <div class="price">$${Number(p.top_bid||0)}</div>
+  </div>
+ `).join('');
+});
+</script>
+</body>
+</html>
